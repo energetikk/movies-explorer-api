@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // const { errors } = require('celebrate');
 // const cookieParser = require('cookie-parser');
 // const cors = require('cors');
-// const router = require('./routes');
+const router = require('./routes');
 // const errorHandler = require('./middlewares/errorHandler');
 // const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, MONGO_DB } = require('./utils/config');
@@ -29,7 +29,7 @@ mongoose.connect(MONGO_DB);
 //   }, 0);
 // });
 
-// app.use(router);
+app.use(router);
 // app.use(errorLogger);
 // app.use(errors());
 // app.use(errorHandler);
