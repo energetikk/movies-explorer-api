@@ -19,12 +19,12 @@ const login = (req, res, next) => {
       bcrypt.compare(String(password), user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret_local_dev', { expiresIn: '7d' });
-            // res.cookie('jwt', token, {
-            //   maxAge: 604800000,
-            //   httpOnly: true,
-            //   sameSite: true,
-            // });
+            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret');
+            res.cookie('jwt', jwt, {
+              maxAge: 604800000,
+              httpOnly: true,
+              sameSite: true,
+            });
             // res.send({ user });
             res.status(200).send({ token: jwt });
           } else {
@@ -36,29 +36,29 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-const getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(next);
-};
+// const getUsers = (req, res, next) => {
+//   User.find({})
+//     .then((users) => res.send(users))
+//     .catch(next);
+// };
 
-const getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь с таким id не найден');
-      } else {
-        next(res.send(user));
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new ValidationError('Передан невалидный ID'));
-      } else {
-        next(err);
-      }
-    });
-};
+// const getUserById = (req, res, next) => {
+//   User.findById(req.params.userId)
+//     .then((user) => {
+//       if (!user) {
+//         throw new NotFoundError('Пользователь с таким id не найден');
+//       } else {
+//         next(res.send(user));
+//       }
+//     })
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         next(new ValidationError('Передан невалидный ID'));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
 
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
@@ -88,9 +88,9 @@ const createUser = (req, res, next) => {
 };
 
 const updateProfileUser = (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   const owner = req.user._id;
-  User.findByIdAndUpdate(owner, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(owner, { name, email }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -100,25 +100,25 @@ const updateProfileUser = (req, res, next) => {
     });
 };
 
-const updateAvatarUser = (req, res, next) => {
-  const { avatar } = req.body;
-  const owner = req.user._id;
-  User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданные данные некорректны'));
-      // } else next(new DefaultError('Произошла неизвестная ошибка сервера'));
-      } else next(err);
-    });
-};
+// const updateAvatarUser = (req, res, next) => {
+//   const { avatar } = req.body;
+//   const owner = req.user._id;
+//   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
+//     .then((user) => res.send(user))
+//     .catch((err) => {
+//       if (err.name === 'ValidationError') {
+//         next(new ValidationError('Переданные данные некорректны'));
+//       // } else next(new DefaultError('Произошла неизвестная ошибка сервера'));
+//       } else next(err);
+//     });
+// };
 
 module.exports = {
   login,
   createUser,
-  getUserById,
+  // getUserById,
   getUserInfo,
-  getUsers,
+  // getUsers,
   updateProfileUser,
-  updateAvatarUser,
+  // updateAvatarUser,
 };

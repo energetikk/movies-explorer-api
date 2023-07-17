@@ -14,7 +14,7 @@ const getMovies = (req, res, next) => {
 
 const deleteMovieById = (req, res, next) => {
   Movie.findById(req.params.cardId)
-    .orFail(() => new NotFoundError('Карточка с указанным id не найдена'))
+    .orFail(() => new NotFoundError('Карточка фильма с указанным id не найдена'))
     .then((movie) => {
       if (movie.owner.toString() === req.user._id) {
         Movie.deleteOne(movie)
@@ -29,8 +29,8 @@ const deleteMovieById = (req, res, next) => {
 
 const createMovie = (req, res, next) => {
   const owner = req.user._id;
-  const { name, link } = req.body;
-  Movie.create({ owner, name, link })
+  const { nameRU, nameEN, lcountry, director, duration, year, description, image, trailer, thumbnail, movieId } = req.body;
+  Movie.create({ owner, nameRU, nameEN, lcountry, director, duration, year, description, image, trailer, thumbnail, movieId })
     .then((movie) => res.status(statusOK).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
