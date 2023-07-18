@@ -2,8 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
-// const cors = require('cors');
+const helmet = require('helmet');
+const rateLimiter = require('./middlewares/rateLimiter');
 const router = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -19,16 +21,12 @@ mongoose.connect(MONGO_DB);
 
 app.use(requestLogger);
 app.use(cookieParser());
-// app.use(cors({
-//   origin: ['http://localhost:3000', 'http://localhost:3001', 'https://mestogram.nomoreparties.sbs', 'http://mestogram.nomoreparties.sbs', 'https://mestogramback.nomoreparties.sbs', 'http://mestogramback.nomoreparties.sbs'],
-//   credentials: true,
-// }));
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
-
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://api.mymovies.nomoredomains.sbs', 'http://api.mymovies.nomoredomains.sbs', 'https://mymovies.nomoredomains.sbs', 'http://mymovies.nomoredomains.sbs'],
+  credentials: true,
+}));
+app.use(helmet());
+app.use(rateLimiter);
 app.use(router);
 app.use(errorLogger);
 app.use(errors());

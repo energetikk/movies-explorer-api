@@ -5,7 +5,6 @@ const NotFoundError = require('../errors/notFoundError');
 const ConflictError = require('../errors/conflictError');
 const UnauthorizedError = require('../errors/unauthorizedError');
 const ValidationError = require('../errors/validationError');
-// const DefaultError = require('../errors/defaultError');
 const { JWT_SECRET, NODE_ENV } = require('../utils/config');
 
 const statusOK = 201;
@@ -35,30 +34,6 @@ const login = (req, res, next) => {
     })
     .catch(next);
 };
-
-// const getUsers = (req, res, next) => {
-//   User.find({})
-//     .then((users) => res.send(users))
-//     .catch(next);
-// };
-
-// const getUserById = (req, res, next) => {
-//   User.findById(req.params.userId)
-//     .then((user) => {
-//       if (!user) {
-//         throw new NotFoundError('Пользователь с таким id не найден');
-//       } else {
-//         next(res.send(user));
-//       }
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Передан невалидный ID'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
 
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
@@ -95,30 +70,13 @@ const updateProfileUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Переданные данные некорректны'));
-      // } else next(new DefaultError('Произошла неизвестная ошибка сервера'));
       } else next(err);
     });
 };
 
-// const updateAvatarUser = (req, res, next) => {
-//   const { avatar } = req.body;
-//   const owner = req.user._id;
-//   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
-//     .then((user) => res.send(user))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new ValidationError('Переданные данные некорректны'));
-//       // } else next(new DefaultError('Произошла неизвестная ошибка сервера'));
-//       } else next(err);
-//     });
-// };
-
 module.exports = {
   login,
   createUser,
-  // getUserById,
   getUserInfo,
-  // getUsers,
   updateProfileUser,
-  // updateAvatarUser,
 };

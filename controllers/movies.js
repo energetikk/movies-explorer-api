@@ -1,5 +1,4 @@
 const Movie = require('../models/movie');
-
 const NotFoundError = require('../errors/notFoundError');
 const ForbiddenError = require('../errors/forbiddenError');
 const ValidationError = require('../errors/validationError');
@@ -7,13 +6,14 @@ const ValidationError = require('../errors/validationError');
 const statusOK = 201;
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((movies) => res.send(movies))
     .catch(next);
 };
 
 const deleteMovieById = (req, res, next) => {
-  Movie.findById(req.params.cardId)
+  Movie.findById(req.params.movieId)
     .orFail(() => new NotFoundError('Карточка фильма с указанным id не найдена'))
     .then((movie) => {
       if (movie.owner.toString() === req.user._id) {
@@ -29,8 +29,33 @@ const deleteMovieById = (req, res, next) => {
 
 const createMovie = (req, res, next) => {
   const owner = req.user._id;
-  const { nameRU, nameEN, lcountry, director, duration, year, description, image, trailer, thumbnail, movieId } = req.body;
-  Movie.create({ owner, nameRU, nameEN, lcountry, director, duration, year, description, image, trailer, thumbnail, movieId })
+  const {
+    nameRU,
+    nameEN,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    thumbnail,
+    movieId,
+  } = req.body;
+  Movie.create({
+    owner,
+    nameRU,
+    nameEN,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    thumbnail,
+    movieId,
+  })
     .then((movie) => res.status(statusOK).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -40,44 +65,6 @@ const createMovie = (req, res, next) => {
       }
     });
 };
-
-// const setLikeCard = (req, res, next) => {
-//   const owner = req.user._id;
-//   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: owner } }, { new: true })
-//     .then((card) => {
-//       if (!card) {
-//         throw new NotFoundError('Объект не найден');
-//       } else {
-//         next(res.send(card));
-//       }
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Передан невалидный запрос id карточки'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-// const setUnLikeCard = (req, res, next) => {
-//   const owner = req.user._id;
-//   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: owner } }, { new: true })
-//     .then((card) => {
-//       if (!card) {
-//         throw new NotFoundError('Объект не найден');
-//       } else {
-//         next(res.send(card));
-//       }
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new ValidationError('Передан невалидный запрос id карточки'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
 
 module.exports = {
   getMovies,

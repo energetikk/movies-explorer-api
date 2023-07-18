@@ -11,8 +11,8 @@ const {
 router.get('/', getMovies);
 router.post('/', celebrate({
   body: Joi.object().keys({
-    nameRu: Joi.string().required(),
     nameEN: Joi.string().required(),
+    nameRu: Joi.string().required(),
     country: Joi.string().required(),
     director: Joi.string().required(),
     description: Joi.string().required(),
