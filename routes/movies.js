@@ -12,7 +12,7 @@ router.get('/', getMovies);
 router.post('/', celebrate({
   body: Joi.object().keys({
     nameEN: Joi.string().required(),
-    nameRu: Joi.string().required(),
+    name: Joi.string().required(),
     country: Joi.string().required(),
     director: Joi.string().required(),
     description: Joi.string().required(),
@@ -24,9 +24,9 @@ router.post('/', celebrate({
     thumbnail: Joi.string().regex(linkRegular).required(),
   }),
 }), createMovie);
-router.delete('/:movieId', celebrate({
+router.delete('/:_id', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex().required(),
+    _id: Joi.string().length(24).hex().required(),
   }),
 }), deleteMovieById);
 
