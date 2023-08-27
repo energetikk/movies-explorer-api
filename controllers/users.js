@@ -18,12 +18,12 @@ const login = (req, res, next) => {
       bcrypt.compare(String(password), user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret');
-            res.cookie('jwt', jwt, {
-              maxAge: 604800000,
-              httpOnly: true,
-              sameSite: true,
-            });
+            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret', { expiresIn: '7d' });
+            // res.cookie('jwt', jwt, {
+            //   maxAge: 604800000,
+            //   httpOnly: true,
+            //   sameSite: true,
+            // });
             // res.send({ user });
             res.status(200).send({ token: jwt });
           } else {
