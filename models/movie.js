@@ -33,10 +33,10 @@ const movieSchema = new mongoose.Schema({
   image: {
     required: true,
     type: String,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: 'Пожалуйста введите корректный адрес ссылки на постер фильма',
-    },
+    // validate: {
+    //   validator: (v) => validator.isURL(v),
+    //   message: 'Пожалуйста введите корректный адрес ссылки на постер фильма',
+    // },
   },
   trailerLink: {
     required: true,
@@ -49,10 +49,10 @@ const movieSchema = new mongoose.Schema({
   thumbnail: {
     required: true,
     type: String,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: 'Пожалуйста введите корректный адрес ссылки на превью постера фильма',
-    },
+    // validate: {
+    //   validator: (v) => validator.isURL(v),
+    //   message: 'Пожалуйста введите корректный адрес ссылки на превью постера фильма',
+    // },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
