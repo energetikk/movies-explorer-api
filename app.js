@@ -22,7 +22,7 @@ mongoose.connect(MONGO_DB);
 app.use(requestLogger);
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:3000', 'https://localhost:3001', 'https://api.mymovies.nomoredomains.xyz', 'http://api.mymovies.nomoredomains.xyz', 'https://mymovies.nomoredomains.xyz', 'http://mymovies.nomoredomains.xyz'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:3000', 'https://localhost:3001', 'https://api.mymovies.nomoredomains.xyz', 'http://api.mymovies.nomoredomains.xyz', 'https://mymovies.nomoredomains.xyz', 'http://mymovies.nomoredomains.xyz', 'http://mesto.deminpavel.ru', 'https://mesto.deminpavel.ru'],
   credentials: true,
 }));
 app.use(helmet());
