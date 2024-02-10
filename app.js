@@ -1,15 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const { errors } = require('celebrate');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
-const rateLimiter = require('./middlewares/rateLimiter');
-const router = require('./routes');
-const errorHandler = require('./middlewares/errorHandler');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { PORT, MONGO_DB } = require('./utils/config');
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const { errors } = require("celebrate");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const rateLimiter = require("./middlewares/rateLimiter");
+const router = require("./routes");
+const errorHandler = require("./middlewares/errorHandler");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { PORT, MONGO_DB } = require("./utils/config");
 // const { PORT = 3000 } = process.env;
 
 const app = express();
