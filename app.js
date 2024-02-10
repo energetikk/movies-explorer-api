@@ -21,21 +21,10 @@ mongoose.connect(MONGO_DB);
 
 app.use(requestLogger);
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://localhost:3000",
-      "https://localhost:3001",
-      "http://api.deminpavel.ru",
-      "https://api.deminpavel.ru",
-      "http://deminpavel.ru",
-      "https://deminpavel.ru",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:3001', "http://api.deminpavel.ru", "https://api.deminpavel.ru", "http://wwww.deminpavel.ru", "http://deminpavel.ru", "https://deminpavel.ru"],
+  credentials: true,
+}));
 app.use(helmet());
 app.use(rateLimiter);
 app.use(router);
