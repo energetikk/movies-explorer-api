@@ -10,7 +10,6 @@ const router = require("./routes");
 const errorHandler = require("./middlewares/errorHandler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { PORT, MONGO_DB } = require("./utils/config");
-// const { PORT = 3000 } = process.env;
 
 const app = express();
 

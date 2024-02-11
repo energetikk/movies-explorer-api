@@ -4,7 +4,7 @@ const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   name: {
-    required: [false, 'Поле name должно быть обязательно заполнено'],
+    required: [true, 'Поле name должно быть обязательно заполнено'],
     type: String,
     minlength: 2,
     maxlength: 30,
